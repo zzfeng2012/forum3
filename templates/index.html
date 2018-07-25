@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-xs-12 col-md-10">
+  {% for b in blocks %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <a href="/article/list/{{ b.id }}" style="font-size: 16px;">{{ b.name }}</a>
+      <span class="pull-right">{{ b.manager }}</span>
+    </div>
+    <div class="panel-body">
+      {{ b.desc }}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div class="col-xs-12 col-md-2">
+  <div class="well">
+    {% if user.is_authenticated %}  
+      <p>
+        {% if user.userprofile.avatar %}
+          <img src="{{ user.userprofile.avatar }}" style="width: 100%; height: 150px;" alt="头像" />
+        {% else %}
+          <a href="/usercenter/uploadavatar/">您还没有头像，去上传</a>
+        {% endif %}
+        {{ user.username }}({{ user.userprofile.get_sex_display }}). 欢迎来到论坛.
+        {% if msg_cnt %}
+        <a href="/message/list"><span class="badge">{{ msg_cnt }}</span></a>
+        {% endif %}
+      </p>
+      <a href="/accounts/logout">登出</a>&nbsp;<a href="/accounts/password_change/">修改密码</a>
+    {% else %}               
+      <p>匿名用户. 请<a href="/accounts/login">登录</a>.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
